@@ -15,15 +15,21 @@
     </div> -->
     <div class="container">
         <h2>{{ product }}</h2>
-        <p v-if="instock" style="color: green;">In stock! Grab your {{product}} now!</p>
-        <p v-else="instock" style="color: red;">Out of stock right now:(</p>
+        <h3 v-show="onSale" style="color: rebeccapurple;">!!!On Sale!!!</h3>
+        <img v-bind:src="image" style="width: 300px;" alt="">
+        <p v-if="inventory > 10" style="color: green;">In stock! Grab your {{product}} now!</p>
+        <p v-else-if="inventory > 0 && inventory <= 10" style="color: yellow;">Almost sold out!</p>
+        <p v-else="inventory" style="color: red;">Out of stock:(</p>
         <hr>
         <h4>Desciption:</h4>
-        <p>{{ description }}</p>
-        <h5>Rating: {{rating}} star</h5>
-        <h5>Price: ${{ price }}</h5>
-        <p>Brand: {{brand}}</p>
-        <p>Seller: {{seller}}</p>
+        <ul>
+            <li v-for="detail in details">{{detail}}</li>
+        </ul>
+        <ul>
+            <button v-for="variant in variants" :data-key="variant.id">{{ variant.color }}</button>
+        </ul>
+        <p><b>Price: ${{ price }}</b></p>
+        <button><a :href="url">Buy Here</a></button>
     </div>
 </body>
 <script>
