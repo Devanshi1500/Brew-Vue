@@ -7,6 +7,25 @@
     <title>My Vue App</title>
     <script src="https://unpkg.com/vue@next"></script>
     <script src="main.js"></script>
+    <style>
+        .color-parent{
+            display: flex;
+            flex-direction: row;
+        }
+        .color-circle{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 10px;
+        }
+        .disabledButton{
+            cursor: not-allowed;
+        }
+        .outOfStockImg{
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 <body>
     <!-- <div class="container">
@@ -14,9 +33,10 @@
         <p>{{ description }}</p>
     </div> -->
     <div class="container">
-        <h2>{{ product }}</h2>
-        <h3 v-show="onSale" style="color: rebeccapurple;">!!!On Sale!!!</h3>
-        <img v-bind:src="image" style="width: 300px;" alt="">
+        <div style="float: right;">Cart({{quantity}})</div>
+        <h2>{{ title }}</h2>
+        <h3 v-show="onSale" style="color: rebeccapurple;">{{ onSaleDisplay }}</h3>
+        <img v-bind:src="image" style="width: 300px;" :class="{ outOfStockImg: inventory<1 }">
         <p v-if="inventory > 10" style="color: green;">In stock! Grab your {{product}} now!</p>
         <p v-else-if="inventory > 0 && inventory <= 10" style="color: yellow;">Almost sold out!</p>
         <p v-else="inventory" style="color: red;">Out of stock:(</p>
@@ -25,11 +45,20 @@
         <ul>
             <li v-for="detail in details">{{detail}}</li>
         </ul>
-        <ul>
-            <button v-for="variant in variants" :data-key="variant.id">{{ variant.color }}</button>
+        <ul class="color-parent">
+            <div 
+                v-for="(variant, index) in variants"
+                :data-key="variant.id"
+                :style="{ backgroundColor: variant.color }"
+                class="color-circle"
+                @mouseover="updateVariant(index)">
+            </div>
         </ul>
         <p><b>Price: ${{ price }}</b></p>
-        <button><a :href="url">Buy Here</a></button>
+        <button v-on:click="addToCart" :class="{ disabledButton: inventory<1 }" :disabled="inventory<1">Add to Cart</button>
+        <button @click="removeFromCart" :class="{ disabledButton: inventory<1 }" :disabled="inventory<1">Remove from Cart</button>
+        <hr>
+        <button><a :href="url">Buy from Amazon</a></button>
     </div>
 </body>
 <script>
