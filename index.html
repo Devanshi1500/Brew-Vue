@@ -28,39 +28,19 @@
     </style>
 </head>
 <body>
-    <!-- <div class="container">
-        <h1>{{ product }}</h1>
-        <p>{{ description }}</p>
-    </div> -->
     <div class="container">
-        <div style="float: right;">Cart({{quantity}})</div>
-        <h2>{{ title }}</h2>
-        <h3 v-show="onSale" style="color: rebeccapurple;">{{ onSaleDisplay }}</h3>
-        <img v-bind:src="image" style="width: 300px;" :class="{ outOfStockImg: inventory<1 }">
-        <p v-if="inventory > 10" style="color: green;">In stock! Grab your {{product}} now!</p>
-        <p v-else-if="inventory > 0 && inventory <= 10" style="color: yellow;">Almost sold out!</p>
-        <p v-else="inventory" style="color: red;">Out of stock:(</p>
-        <hr>
-        <h4>Desciption:</h4>
-        <ul>
-            <li v-for="detail in details">{{detail}}</li>
-        </ul>
-        <ul class="color-parent">
-            <div 
-                v-for="(variant, index) in variants"
-                :data-key="variant.id"
-                :style="{ backgroundColor: variant.color }"
-                class="color-circle"
-                @mouseover="updateVariant(index)">
-            </div>
-        </ul>
-        <p><b>Price: ${{ price }}</b></p>
-        <button v-on:click="addToCart" :class="{ disabledButton: inventory<1 }" :disabled="inventory<1">Add to Cart</button>
-        <button @click="removeFromCart" :class="{ disabledButton: inventory<1 }" :disabled="inventory<1">Remove from Cart</button>
-        <hr>
-        <button><a :href="url">Buy from Amazon</a></button>
+        <div class="product-display">
+        <div style="float: right;">Cart({{cart}})</div>
+        <product-display :premium = "premium"></product-display>
+        <product-display :premium = "premium"></product-display>
+        <product-display :premium = "premium"></product-display>
+        </div>
     </div>
 </body>
+<!-- Import Components -->
+<script src="./components/productDisplay.js"></script>
+<script src="./components/productDetails.js"></script>
+
 <script>
     const mountedApp = app.mount('.container');
 </script>
